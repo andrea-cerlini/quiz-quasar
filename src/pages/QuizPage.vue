@@ -87,7 +87,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bg-50 {
   background-color: rgba(240, 240, 240, 0.6);
   border-radius: 10px;

@@ -95,7 +95,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'src/css/app.scss';
 .bg-50 {
   background-color: rgba(240, 240, 240, 0.6);
