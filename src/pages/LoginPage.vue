@@ -60,7 +60,7 @@ export default defineComponent({
 }
 
 .light-bg {
-  background-color: rgba(white, 0.4);
+  background-color: rgba(white, 0.3);
   border-radius: 10px;
 }
 </style>
