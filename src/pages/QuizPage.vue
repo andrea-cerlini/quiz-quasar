@@ -34,19 +34,19 @@ export default defineComponent({
     useComposable().initializeQuestionDatabase();
 
     useComposable().score.value = 0;
-    var currentQuestion = ref(
+    const currentQuestion = ref(
       Math.trunc(Math.random() * 100) %
         useComposable().currentQuestionDatabase.value.length
     );
-    var questionMessage = ref(
+    const questionMessage = ref(
       useComposable().currentQuestionDatabase.value[currentQuestion.value]
         .question
     );
-    var answers = ref(
+    const answers = ref(
       useComposable().currentQuestionDatabase.value[currentQuestion.value]
         .answers
     );
-    var numberOfAskedQuestions = ref(1);
+    const numberOfAskedQuestions = ref(1);
 
     /*--------------------------- Functions ---------------------------*/
     function checkAnswerIndex(indexOfClickedAnswer: number) {

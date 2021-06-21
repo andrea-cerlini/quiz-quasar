@@ -24,7 +24,7 @@ export default defineComponent({
     watch(
       // Second check in case of user navigation between the pages, which resets the data upon reload
       () => routeNow.value.path,
-      () => checkRedirect
+      (pathNew) => checkRedirect(pathNew)
     );
     var currentBgClass = computed(() => {
       switch (routeNow.value.path) {

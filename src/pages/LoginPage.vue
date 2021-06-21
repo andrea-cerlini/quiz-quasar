@@ -34,7 +34,7 @@ import { useComposable } from 'src/composable/composable';
 export default defineComponent({
   name: 'LoginPage',
   setup() {
-    var username = ref('');
+    const username = ref('');
     const router = useRouter();
 
     /*--------------------------- Functions ---------------------------*/
