@@ -19,18 +19,12 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     var routeNow = ref(route);
+    checkRedirect(routeNow.value.path); // Initial check, in case of user reload of the page
+
     watch(
+      // Second check in case of user navigation between the pages, which resets the data upon reload
       () => routeNow.value.path,
-      () => {
-        switch (routeNow.value.path) {
-          case '/quiz':
-          case '/end':
-            if (useComposable().username.value === '') {
-              alert('Accesso negato: inserire un nome!');
-              void router.push('login');
-            }
-        }
-      }
+      () => checkRedirect
     );
     var currentBgClass = computed(() => {
       switch (routeNow.value.path) {
@@ -45,6 +39,19 @@ export default defineComponent({
           return '';
       }
     });
+
+    /* -------------------- Functions -------------------- */
+    function checkRedirect(path: string) {
+      switch (path) {
+        case '/quiz':
+        case '/end':
+          if (useComposable().username.value === '') {
+            alert('Accesso negato: inserire un nome!');
+            void router.push('login');
+          }
+      }
+    }
+
     return {
       currentBgClass,
       routeNow,
