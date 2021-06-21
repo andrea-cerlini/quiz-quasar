@@ -6,9 +6,7 @@
     autocomplete="off"
   >
     <h2 class="text-primary">Login</h2>
-    <h4 class="text-secondary q-pa-sm shadow-text-lightbg">
-      Inserisci il tuo nome
-    </h4>
+    <h4 class="text-secondary q-pa-sm light-bg">Inserisci il tuo nome</h4>
     <q-input
       standout="bg-secondary text-dark"
       label="Inserisci il nome"
@@ -38,10 +36,13 @@ export default defineComponent({
   setup() {
     var username = ref('');
     const router = useRouter();
+
+    /*--------------------------- Functions ---------------------------*/
     function onSubmit() {
       useComposable().setUsername(username.value);
       void router.push('quiz');
     }
+
     return {
       onSubmit,
       showErrorMessage: ref(false),
@@ -58,7 +59,8 @@ export default defineComponent({
   box-shadow: $shadow-15;
 }
 
-.shadow-text {
-  text-shadow: 2px 2px 10px rgba($dark, 0.3);
+.light-bg {
+  background-color: rgba(white, 0.4);
+  border-radius: 10px;
 }
 </style>

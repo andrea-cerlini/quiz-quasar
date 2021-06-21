@@ -1,5 +1,7 @@
 <template>
-  <q-card class="quiz-page q-pa-lg absolute-center column wrap justify-start">
+  <q-card
+    class="quiz-page q-pa-lg absolute-center column wrap justify-start bg-50"
+  >
     <h4 class="question-paragraph">
       {{ questionMessage }}
     </h4>
@@ -28,7 +30,9 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+
     useComposable().initializeQuestionDatabase();
+
     useComposable().score.value = 0;
     var currentQuestion = ref(
       Math.trunc(Math.random() * 100) %
@@ -43,6 +47,8 @@ export default defineComponent({
         .answers
     );
     var numberOfAskedQuestions = ref(1);
+
+    /*--------------------------- Functions ---------------------------*/
     function checkAnswerIndex(indexOfClickedAnswer: number) {
       if (
         indexOfClickedAnswer ==
@@ -70,6 +76,7 @@ export default defineComponent({
         void router.push(redirectPath.toString());
       }
     }
+
     return {
       currentQuestion,
       questionMessage,
@@ -81,6 +88,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.bg-50 {
+  background-color: rgba(240, 240, 240, 0.6);
+  border-radius: 10px;
+  box-shadow: $shadow-15;
+  user-select: none;
+}
+
 .question-paragraph {
   text-align: center;
 }
