@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue';
+import { ref } from 'vue';
 
 interface user {
   name: string;
@@ -9,28 +9,6 @@ interface question {
   question: string;
   answers: string[];
   indexOfTheCorrectAnswer: number;
-}
-
-interface composable {
-  username: Ref<string>;
-  setUsername: (name: string) => void;
-  logged: Ref<boolean>;
-  savedSession: Ref<{ value: boolean; user: string }>;
-  score: Ref<number>;
-  increaseScore: () => void;
-  questionDatabase: question[];
-  currentQuestion: Ref<number>;
-  questionMessage: Ref<string>;
-  answers: Ref<string[]>;
-  numberOfAskedQuestions: Ref<number>;
-  numberOfAnsweredQuestions: Ref<number>;
-  currentQuestionDatabase: Ref<question[]>;
-  questionNumber: number;
-  initializeQuestionDatabase: () => void;
-  reInitializeEverything: () => void;
-  userDatabase: Ref<user[]>;
-  updateUserDatabase: () => void;
-  deleteFromCurrentQuestionDatabase: (position: number) => void;
 }
 
 const questionNumber = 10;
@@ -151,7 +129,7 @@ initializeQuestionDatabase();
 
 const currentQuestion = ref(0);
 const questionMessage = ref('');
-const answers = ref([]);
+const answers = ref<string[]>([]);
 const numberOfAskedQuestions = ref(0);
 const numberOfAnsweredQuestions = ref(0);
 
@@ -200,7 +178,7 @@ function initializeQuestionDatabase() {
   });
 }
 
-export function useComposable(): composable {
+export function useComposable() {
   return {
     increaseScore,
     score,

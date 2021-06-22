@@ -23,7 +23,6 @@
 import { defineComponent } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useComposable } from 'src/composable/composable';
-// import {  } from './models';
 
 export default defineComponent({
   name: 'QuizPage',
@@ -103,13 +102,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.bg-50 {
-  background-color: rgba(240, 240, 240, 0.6);
-  border-radius: 10px;
-  box-shadow: $shadow-15;
-  user-select: none;
-}
-
 .question-paragraph {
   text-align: center;
 }

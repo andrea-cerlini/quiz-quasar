@@ -1,8 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf" v-bind:class="'bg-image-' + currentBgClass">
+  <q-layout view="lHh Lpr lFf" :class="'bg-image-' + currentBgClass">
     <q-page-container>
       <router-view />
-      <!-- <div>{{ routeNow.path }}</div> -->
     </q-page-container>
   </q-layout>
 </template>
@@ -61,6 +60,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.bg-50 {
+  background-color: rgba($grey-3, 0.6);
+  border-radius: 10px;
+  box-shadow: $shadow-15;
+}
+
 .bg-image {
   &-login {
     background-image: url('../assets/BgLogin.png');

@@ -10,12 +10,12 @@
           :class="{ 'new-best': currentPlayerBest === score }"
           :score="score"
           :totalQuestionsNumber="totalQuestionsNumber"
-          class="end-msg-correct"
+          class="end-msg-correct text-weight-light"
         >
           {{ score + ' su ' + totalQuestionsNumber }}
         </span>
         <span
-          class="new-best end-msg-correct"
+          class="new-best end-msg-correct text-weight-light"
           v-if="currentPlayerBest === score"
         >
           - miglior punteggio! :D</span
@@ -26,7 +26,7 @@
         <span
           :score="score"
           :totalQuestionsNumber="totalQuestionsNumber"
-          class="end-msg-percent"
+          class="end-msg-percent text-weight-light"
         >
           {{ (100 * score) / totalQuestionsNumber + '%' }}
         </span>
@@ -40,7 +40,7 @@
           :class="{ 'new-best': currentPlayerBest === score }"
           :currentPlayerBest="currentPlayerBest"
           :totalQuestionsNumber="totalQuestionsNumber"
-          class="end-msg-best"
+          class="end-msg-best text-weight-light"
         >
           {{ currentPlayerBest + ' su ' + totalQuestionsNumber }}
         </span>
@@ -62,8 +62,6 @@ import { defineComponent, ref } from 'vue';
 import { useComposable } from 'src/composable/composable';
 import { useRouter } from 'vue-router';
 
-// import {  } from './models';
-
 export default defineComponent({
   name: 'EndPage',
   setup() {
@@ -80,7 +78,7 @@ export default defineComponent({
     const username = ref(useComposable().username.value);
     const currentPlayerBest = ref(0);
     useComposable().userDatabase.value.forEach((user) => {
-      // Inizializzazione bestScore
+      // Initialization bestScore
       if (user.name === username.value) {
         currentPlayerBest.value = user.bestScore;
       }
@@ -109,13 +107,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import 'src/css/app.scss';
-.bg-50 {
-  background-color: rgba(240, 240, 240, 0.6);
-  border-radius: 10px;
-  box-shadow: $shadow-15;
-}
-
 .msg-end-quiz {
   color: $primary;
   text-align: center;
@@ -127,20 +118,8 @@ export default defineComponent({
 }
 
 .end-msg {
-  &-correct {
-    font-weight: $font-weight-thin;
-  }
-
-  &-percent {
-    font-weight: $font-weight-thin;
-  }
-
   &-best-name {
     color: $primary;
-  }
-
-  &-best {
-    font-weight: $font-weight-thin;
   }
 }
 

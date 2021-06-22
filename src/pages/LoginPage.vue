@@ -29,7 +29,6 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useComposable } from 'src/composable/composable';
-// import {  } from './models';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -120,12 +119,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.bg-50 {
-  background-color: rgba(240, 240, 240, 0.6);
-  border-radius: 10px;
-  box-shadow: $shadow-15;
-}
-
 .light-bg {
   background-color: rgba(white, 0.3);
   border-radius: 10px;
