@@ -67,14 +67,14 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const {
-      questionNumber,
-      numberOfAnsweredQuestions,
-      savedSession,
       logged,
+      numberOfAnsweredQuestions,
+      questionNumber,
+      savedSession,
       score,
       userDatabase,
-      updateUserDatabase,
       username,
+      updateUserDatabase,
     } = useComposable();
 
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
@@ -102,10 +102,10 @@ export default defineComponent({
     }
 
     return {
-      username,
       currentPlayerBest,
-      totalQuestionsNumber,
       score,
+      totalQuestionsNumber,
+      username,
       restartFunc,
     };
   },

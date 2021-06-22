@@ -38,12 +38,12 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const {
-      username,
-      reInitializeEverything,
       logged,
-      savedSession,
       numberOfAnsweredQuestions,
       questionNumber,
+      savedSession,
+      username,
+      reInitializeEverything,
     } = useComposable();
     username.value = '';
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
@@ -116,9 +116,9 @@ export default defineComponent({
     }
 
     return {
-      onSubmit,
-      showErrorMessage: ref(false),
       username,
+      showErrorMessage: ref(false),
+      onSubmit,
     };
   },
 });

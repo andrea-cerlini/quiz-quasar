@@ -30,18 +30,18 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const {
-      questionNumber,
-      numberOfAnsweredQuestions,
-      logged,
-      increaseScore,
-      score,
-      questionMessage,
       answers,
-      numberOfAskedQuestions,
-      currentQuestionDatabase,
-      initializeQuestionDatabase,
-      deleteFromCurrentQuestionDatabase,
       currentQuestion,
+      currentQuestionDatabase,
+      logged,
+      numberOfAnsweredQuestions,
+      numberOfAskedQuestions,
+      questionMessage,
+      questionNumber,
+      score,
+      deleteFromCurrentQuestionDatabase,
+      increaseScore,
+      initializeQuestionDatabase,
     } = useComposable();
 
     if (logged.value && numberOfAskedQuestions.value === 0) {
@@ -91,9 +91,9 @@ export default defineComponent({
     }
 
     return {
+      answers,
       currentQuestion,
       questionMessage,
-      answers,
       checkAnswerIndex,
     };
   },
