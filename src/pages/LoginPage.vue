@@ -8,9 +8,13 @@
     <h4 class="text-secondary q-pa-sm light-bg">Inserisci il tuo nome</h4>
     <q-input
       standout="bg-secondary text-dark"
-      :label="username === 'vuoto' ? 'Simpaticone' : 'Inserisci il nome'"
+      :label="username === 'vuoto' ? 'Simpaticone...' : 'Inserisci il nome'"
       name="usernameInput"
-      :rules="[(username) => username != '' || 'Il nome non può essere vuoto!']"
+      :rules="[
+        (username) =>
+          (username != false && username != undefined) ||
+          'Il nome non può essere vuoto! ',
+      ]"
       v-model="username"
       lazy-rules
       autofocus
@@ -32,14 +36,17 @@ import { useComposable } from 'src/composable/composable';
 export default defineComponent({
   name: 'LoginPage',
   setup() {
-    const username = ref('');
     const router = useRouter();
-
-    if (
-      useComposable().logged.value &&
-      useComposable().numberOfAnsweredQuestions.value <
-        useComposable().questionNumber
-    ) {
+    const {
+      username,
+      reInitializeEverything,
+      logged,
+      savedSession,
+      numberOfAnsweredQuestions,
+      questionNumber,
+    } = useComposable();
+    username.value = '';
+    if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
       if (
         !confirm(
           'Vuoi davvero tornare indietro? (Non perderai i dati ' +
@@ -49,17 +56,15 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         router.push({ name: 'QuizPage' });
       } else {
-        useComposable().logged.value = false;
+        logged.value = false;
       }
     }
 
     /*--------------------------- Functions ---------------------------*/
     function onSubmit() {
-      if (useComposable().savedSession.value.value) {
-        if (username.value === useComposable().savedSession.value.user) {
-          var finished =
-            useComposable().numberOfAnsweredQuestions.value ===
-            useComposable().questionNumber;
+      if (savedSession.value.value) {
+        if (username.value === savedSession.value.user) {
+          var finished = numberOfAnsweredQuestions.value === questionNumber;
           if (
             confirm(
               'Hai una partita ' +
@@ -69,9 +74,8 @@ export default defineComponent({
                 '?'
             )
           ) {
-            useComposable().logged.value = true;
-            useComposable().username.value = username.value;
-            useComposable().savedSession.value.value = true;
+            logged.value = true;
+            savedSession.value.value = true;
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             router.push({ name: 'QuizPage' });
           } else {
@@ -82,10 +86,9 @@ export default defineComponent({
             ) {
               // eslint-disable-next-line @typescript-eslint/no-floating-promises
               router.push({ name: 'QuizPage' });
-              useComposable().logged.value = true;
-              useComposable().savedSession.value.value = true;
-              useComposable().username.value = username.value;
-              useComposable().reInitializeEverything();
+              logged.value = true;
+              savedSession.value.value = true;
+              reInitializeEverything();
             }
           }
         } else {
@@ -96,21 +99,19 @@ export default defineComponent({
           ) {
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             router.push({ name: 'QuizPage' });
-            useComposable().logged.value = true;
-            useComposable().savedSession.value.value = true;
-            useComposable().savedSession.value.user = username.value;
-            useComposable().username.value = username.value;
-            useComposable().reInitializeEverything();
+            logged.value = true;
+            savedSession.value.value = true;
+            savedSession.value.user = username.value;
+            reInitializeEverything();
           }
         }
       } else {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         router.push({ name: 'QuizPage' });
-        useComposable().logged.value = true;
-        useComposable().savedSession.value.value = true;
-        useComposable().savedSession.value.user = username.value;
-        useComposable().username.value = username.value;
-        useComposable().reInitializeEverything();
+        logged.value = true;
+        savedSession.value.value = true;
+        savedSession.value.user = username.value;
+        reInitializeEverything();
       }
     }
 

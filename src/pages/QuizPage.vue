@@ -29,31 +29,35 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-    var currentQuestion = useComposable().currentQuestion;
-    var questionMessage = useComposable().questionMessage;
-    var answers = useComposable().answers;
-    var numberOfAskedQuestions = useComposable().numberOfAskedQuestions;
+    const {
+      questionNumber,
+      numberOfAnsweredQuestions,
+      logged,
+      increaseScore,
+      score,
+      questionMessage,
+      answers,
+      numberOfAskedQuestions,
+      currentQuestionDatabase,
+      initializeQuestionDatabase,
+      deleteFromCurrentQuestionDatabase,
+      currentQuestion,
+    } = useComposable();
 
-    if (useComposable().logged.value && numberOfAskedQuestions.value === 0) {
-      useComposable().initializeQuestionDatabase();
+    if (logged.value && numberOfAskedQuestions.value === 0) {
+      initializeQuestionDatabase();
 
-      useComposable().score.value = 0;
+      score.value = 0;
       currentQuestion.value =
-        Math.trunc(Math.random() * 100) %
-        useComposable().currentQuestionDatabase.value.length;
+        Math.trunc(Math.random() * 100) % currentQuestionDatabase.value.length;
       questionMessage.value =
-        useComposable().currentQuestionDatabase.value[
-          currentQuestion.value
-        ].question;
+        currentQuestionDatabase.value[currentQuestion.value].question;
       answers.value =
-        useComposable().currentQuestionDatabase.value[
-          currentQuestion.value
-        ].answers;
+        currentQuestionDatabase.value[currentQuestion.value].answers;
       numberOfAskedQuestions.value = 1;
     } else if (
-      useComposable().numberOfAnsweredQuestions.value ===
-        useComposable().questionNumber &&
-      useComposable().logged.value
+      numberOfAnsweredQuestions.value === questionNumber &&
+      logged.value
     ) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       router.push({ name: 'EndPage' });
@@ -63,28 +67,21 @@ export default defineComponent({
     function checkAnswerIndex(indexOfClickedAnswer: number) {
       if (
         indexOfClickedAnswer ==
-        useComposable().currentQuestionDatabase.value[currentQuestion.value]
+        currentQuestionDatabase.value[currentQuestion.value]
           .indexOfTheCorrectAnswer
       ) {
-        useComposable().increaseScore();
+        increaseScore();
       }
-      useComposable().numberOfAnsweredQuestions.value++;
-      useComposable().deleteFromCurrentQuestionDatabase(currentQuestion.value);
-      if (
-        useComposable().numberOfAskedQuestions.value <
-        useComposable().questionNumber
-      ) {
-        useComposable().currentQuestion.value =
+      numberOfAnsweredQuestions.value++;
+      deleteFromCurrentQuestionDatabase(currentQuestion.value);
+      if (numberOfAskedQuestions.value < questionNumber) {
+        currentQuestion.value =
           Math.trunc(Math.random() * 100) %
-          useComposable().currentQuestionDatabase.value.length;
-        useComposable().questionMessage.value =
-          useComposable().currentQuestionDatabase.value[
-            useComposable().currentQuestion.value
-          ].question;
-        useComposable().answers.value =
-          useComposable().currentQuestionDatabase.value[
-            currentQuestion.value
-          ].answers;
+          currentQuestionDatabase.value.length;
+        questionMessage.value =
+          currentQuestionDatabase.value[currentQuestion.value].question;
+        answers.value =
+          currentQuestionDatabase.value[currentQuestion.value].answers;
         numberOfAskedQuestions.value++;
       } else {
         const redirectPath = route.query.redirect || '/end';

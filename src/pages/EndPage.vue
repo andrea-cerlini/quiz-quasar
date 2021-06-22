@@ -66,33 +66,37 @@ export default defineComponent({
   name: 'EndPage',
   setup() {
     const router = useRouter();
+    const {
+      questionNumber,
+      numberOfAnsweredQuestions,
+      savedSession,
+      logged,
+      score,
+      userDatabase,
+      updateUserDatabase,
+      username,
+    } = useComposable();
 
-    if (
-      useComposable().logged.value &&
-      useComposable().numberOfAnsweredQuestions.value <
-        useComposable().questionNumber
-    ) {
+    if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       router.push({ name: 'QuizPage' });
     }
-    useComposable().updateUserDatabase();
-    const username = ref(useComposable().username.value);
+    updateUserDatabase();
     const currentPlayerBest = ref(0);
-    useComposable().userDatabase.value.forEach((user) => {
+    userDatabase.value.forEach((user) => {
       // Initialization bestScore
       if (user.name === username.value) {
         currentPlayerBest.value = user.bestScore;
       }
     });
-    const totalQuestionsNumber = ref(useComposable().questionNumber);
-    const score = ref(useComposable().score.value);
+    const totalQuestionsNumber = ref(questionNumber);
 
     /*--------------------------- Functions ---------------------------*/
     function restartFunc() {
-      useComposable().logged.value = false;
-      useComposable().logged.value = false;
-      useComposable().savedSession.value.value = false;
-      useComposable().savedSession.value.user = '';
+      logged.value = false;
+      logged.value = false;
+      savedSession.value.value = false;
+      savedSession.value.user = '';
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       router.push({ name: 'LoginPage' });
     }
