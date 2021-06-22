@@ -45,7 +45,7 @@ export default defineComponent({
         case '/quiz':
         case '/end':
           if (!useComposable().logged.value) {
-            alert('Accesso negato: inserire un nome!');
+            alert('Accesso negato: non sei loggato');
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             router.push({ name: 'LoginPage' });
           }
