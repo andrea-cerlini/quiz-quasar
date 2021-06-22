@@ -1,6 +1,5 @@
 <template>
   <q-form
-    style="user-select: none"
     class="absolute-center bg-50 q-pa-xl login-page"
     @submit="onSubmit"
     autocomplete="off"
@@ -47,10 +46,12 @@ export default defineComponent({
             'della partita corrente)'
         )
       ) {
-        void router.push('quiz');
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        router.push({ name: 'QuizPage' });
+      } else {
+        useComposable().logged.value = false;
       }
     }
-    useComposable().logged.value = false;
 
     /*--------------------------- Functions ---------------------------*/
     function onSubmit() {
@@ -63,22 +64,24 @@ export default defineComponent({
             confirm(
               'Hai una partita ' +
                 (finished ? 'terminata' : 'salvata') +
-                ' La vuoi ' +
-                (finished ? 'guardare' : ' continuare') +
+                '. La vuoi ' +
+                (finished ? 'guardare' : 'continuare') +
                 '?'
             )
           ) {
             useComposable().logged.value = true;
             useComposable().username.value = username.value;
             useComposable().savedSession.value.value = true;
-            void router.push('quiz');
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            router.push({ name: 'QuizPage' });
           } else {
             if (
               confirm(
                 'Vuoi iniziare una nuova partita? (cancel per tornare al login'
               )
             ) {
-              void router.push('quiz');
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              router.push({ name: 'QuizPage' });
               useComposable().logged.value = true;
               useComposable().savedSession.value.value = true;
               useComposable().username.value = username.value;
@@ -91,7 +94,8 @@ export default defineComponent({
               "C'è un'altro utente con una partita salvata. Vuoi davvero cominciare? (l'altro utente perderà i dati della propria partita"
             )
           ) {
-            void router.push('quiz');
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            router.push({ name: 'QuizPage' });
             useComposable().logged.value = true;
             useComposable().savedSession.value.value = true;
             useComposable().savedSession.value.user = username.value;
@@ -100,7 +104,8 @@ export default defineComponent({
           }
         }
       } else {
-        void router.push('quiz');
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        router.push({ name: 'QuizPage' });
         useComposable().logged.value = true;
         useComposable().savedSession.value.value = true;
         useComposable().savedSession.value.user = username.value;
@@ -119,6 +124,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.login-page {
+  user-select: none;
+}
 .light-bg {
   background-color: rgba(white, 0.3);
   border-radius: 10px;

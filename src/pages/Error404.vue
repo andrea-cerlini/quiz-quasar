@@ -33,7 +33,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     function onGoBack() {
-      void router.push('login');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      router.push({ name: 'LoginPage' });
     }
     return {
       onGoBack,

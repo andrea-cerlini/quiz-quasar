@@ -72,7 +72,8 @@ export default defineComponent({
       useComposable().numberOfAnsweredQuestions.value <
         useComposable().questionNumber
     ) {
-      void router.push('quiz');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      router.push({ name: 'QuizPage' });
     }
     useComposable().updateUserDatabase();
     const username = ref(useComposable().username.value);
@@ -92,7 +93,8 @@ export default defineComponent({
       useComposable().logged.value = false;
       useComposable().savedSession.value.value = false;
       useComposable().savedSession.value.user = '';
-      void router.push('login');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      router.push({ name: 'LoginPage' });
     }
 
     return {

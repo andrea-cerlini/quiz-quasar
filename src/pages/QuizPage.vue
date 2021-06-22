@@ -55,7 +55,8 @@ export default defineComponent({
         useComposable().questionNumber &&
       useComposable().logged.value
     ) {
-      void router.push('end');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      router.push({ name: 'EndPage' });
     }
 
     /*--------------------------- Functions ---------------------------*/
@@ -87,7 +88,8 @@ export default defineComponent({
         numberOfAskedQuestions.value++;
       } else {
         const redirectPath = route.query.redirect || '/end';
-        void router.push(redirectPath.toString());
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        router.push(redirectPath.toString());
       }
     }
 
@@ -102,6 +104,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.quiz-page {
+  user-select: none;
+}
 .question-paragraph {
   text-align: center;
 }

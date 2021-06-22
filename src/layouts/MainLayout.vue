@@ -46,7 +46,8 @@ export default defineComponent({
         case '/end':
           if (!useComposable().logged.value) {
             alert('Accesso negato: inserire un nome!');
-            void router.push('login');
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            router.push({ name: 'LoginPage' });
           }
       }
     }
@@ -60,9 +61,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+$border-radius-default: 10px;
+
 .bg-50 {
   background-color: rgba($grey-3, 0.6);
-  border-radius: 10px;
+  border-radius: $border-radius-default;
   box-shadow: $shadow-15;
 }
 
