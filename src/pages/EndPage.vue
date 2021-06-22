@@ -50,7 +50,9 @@
       class="restart-button text-secondary q-ma-md bg-grey-9"
       @click="restartFunc"
       :ripple="{ early: true }"
-      >RESTART</q-btn
+    >
+      <q-tooltip>Se riparti, perderai i dati di questa partita</q-tooltip
+      >Restart</q-btn
     >
   </q-card>
 </template>
@@ -67,6 +69,13 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
+    if (
+      useComposable().logged.value &&
+      useComposable().numberOfAnsweredQuestions.value <
+        useComposable().questionNumber
+    ) {
+      void router.push('quiz');
+    }
     useComposable().updateUserDatabase();
     const username = ref(useComposable().username.value);
     const currentPlayerBest = ref(0);
@@ -81,6 +90,10 @@ export default defineComponent({
 
     /*--------------------------- Functions ---------------------------*/
     function restartFunc() {
+      useComposable().logged.value = false;
+      useComposable().logged.value = false;
+      useComposable().savedSession.value.value = false;
+      useComposable().savedSession.value.user = '';
       void router.push('login');
     }
 

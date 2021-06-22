@@ -9,7 +9,7 @@
     <h4 class="text-secondary q-pa-sm light-bg">Inserisci il tuo nome</h4>
     <q-input
       standout="bg-secondary text-dark"
-      label="Inserisci il nome"
+      :label="username === 'vuoto' ? 'Simpaticone' : 'Inserisci il nome'"
       name="usernameInput"
       :rules="[(username) => username != '' || 'Il nome non può essere vuoto!']"
       v-model="username"
@@ -37,10 +37,77 @@ export default defineComponent({
     const username = ref('');
     const router = useRouter();
 
+    if (
+      useComposable().logged.value &&
+      useComposable().numberOfAnsweredQuestions.value <
+        useComposable().questionNumber
+    ) {
+      if (
+        !confirm(
+          'Vuoi davvero tornare indietro? (Non perderai i dati ' +
+            'della partita corrente)'
+        )
+      ) {
+        void router.push('quiz');
+      }
+    }
+    useComposable().logged.value = false;
+
     /*--------------------------- Functions ---------------------------*/
     function onSubmit() {
-      useComposable().setUsername(username.value);
-      void router.push('quiz');
+      if (useComposable().savedSession.value.value) {
+        if (username.value === useComposable().savedSession.value.user) {
+          var finished =
+            useComposable().numberOfAnsweredQuestions.value ===
+            useComposable().questionNumber;
+          if (
+            confirm(
+              'Hai una partita ' +
+                (finished ? 'terminata' : 'salvata') +
+                ' La vuoi ' +
+                (finished ? 'guardare' : ' continuare') +
+                '?'
+            )
+          ) {
+            useComposable().logged.value = true;
+            useComposable().username.value = username.value;
+            useComposable().savedSession.value.value = true;
+            void router.push('quiz');
+          } else {
+            if (
+              confirm(
+                'Vuoi iniziare una nuova partita? (cancel per tornare al login'
+              )
+            ) {
+              void router.push('quiz');
+              useComposable().logged.value = true;
+              useComposable().savedSession.value.value = true;
+              useComposable().username.value = username.value;
+              useComposable().reInitializeEverything();
+            }
+          }
+        } else {
+          if (
+            confirm(
+              "C'è un'altro utente con una partita salvata. Vuoi davvero cominciare? (l'altro utente perderà i dati della propria partita"
+            )
+          ) {
+            void router.push('quiz');
+            useComposable().logged.value = true;
+            useComposable().savedSession.value.value = true;
+            useComposable().savedSession.value.user = username.value;
+            useComposable().username.value = username.value;
+            useComposable().reInitializeEverything();
+          }
+        }
+      } else {
+        void router.push('quiz');
+        useComposable().logged.value = true;
+        useComposable().savedSession.value.value = true;
+        useComposable().savedSession.value.user = username.value;
+        useComposable().username.value = username.value;
+        useComposable().reInitializeEverything();
+      }
     }
 
     return {

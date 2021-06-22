@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useComposable } from 'src/composable/composable';
 // import {  } from './models';
@@ -30,23 +30,34 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    var currentQuestion = useComposable().currentQuestion;
+    var questionMessage = useComposable().questionMessage;
+    var answers = useComposable().answers;
+    var numberOfAskedQuestions = useComposable().numberOfAskedQuestions;
 
-    useComposable().initializeQuestionDatabase();
+    if (useComposable().logged.value && numberOfAskedQuestions.value === 0) {
+      useComposable().initializeQuestionDatabase();
 
-    useComposable().score.value = 0;
-    const currentQuestion = ref(
-      Math.trunc(Math.random() * 100) %
-        useComposable().currentQuestionDatabase.value.length
-    );
-    const questionMessage = ref(
-      useComposable().currentQuestionDatabase.value[currentQuestion.value]
-        .question
-    );
-    const answers = ref(
-      useComposable().currentQuestionDatabase.value[currentQuestion.value]
-        .answers
-    );
-    const numberOfAskedQuestions = ref(1);
+      useComposable().score.value = 0;
+      currentQuestion.value =
+        Math.trunc(Math.random() * 100) %
+        useComposable().currentQuestionDatabase.value.length;
+      questionMessage.value =
+        useComposable().currentQuestionDatabase.value[
+          currentQuestion.value
+        ].question;
+      answers.value =
+        useComposable().currentQuestionDatabase.value[
+          currentQuestion.value
+        ].answers;
+      numberOfAskedQuestions.value = 1;
+    } else if (
+      useComposable().numberOfAnsweredQuestions.value ===
+        useComposable().questionNumber &&
+      useComposable().logged.value
+    ) {
+      void router.push('end');
+    }
 
     /*--------------------------- Functions ---------------------------*/
     function checkAnswerIndex(indexOfClickedAnswer: number) {
@@ -57,20 +68,24 @@ export default defineComponent({
       ) {
         useComposable().increaseScore();
       }
-      numberOfAskedQuestions.value++;
+      useComposable().numberOfAnsweredQuestions.value++;
       useComposable().deleteFromCurrentQuestionDatabase(currentQuestion.value);
-      if (numberOfAskedQuestions.value <= useComposable().questionNumber) {
-        currentQuestion.value =
+      if (
+        useComposable().numberOfAskedQuestions.value <
+        useComposable().questionNumber
+      ) {
+        useComposable().currentQuestion.value =
           Math.trunc(Math.random() * 100) %
           useComposable().currentQuestionDatabase.value.length;
-        questionMessage.value =
+        useComposable().questionMessage.value =
           useComposable().currentQuestionDatabase.value[
-            currentQuestion.value
+            useComposable().currentQuestion.value
           ].question;
-        answers.value =
+        useComposable().answers.value =
           useComposable().currentQuestionDatabase.value[
             currentQuestion.value
           ].answers;
+        numberOfAskedQuestions.value++;
       } else {
         const redirectPath = route.query.redirect || '/end';
         void router.push(redirectPath.toString());

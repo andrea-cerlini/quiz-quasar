@@ -5,7 +5,7 @@ interface user {
   bestScore: number;
 }
 
-export interface question {
+interface question {
   question: string;
   answers: string[];
   indexOfTheCorrectAnswer: number;
@@ -14,12 +14,20 @@ export interface question {
 interface composable {
   username: Ref<string>;
   setUsername: (name: string) => void;
+  logged: Ref<boolean>;
+  savedSession: Ref<{ value: boolean; user: string }>;
   score: Ref<number>;
   increaseScore: () => void;
   questionDatabase: question[];
+  currentQuestion: Ref<number>;
+  questionMessage: Ref<string>;
+  answers: Ref<string[]>;
+  numberOfAskedQuestions: Ref<number>;
+  numberOfAnsweredQuestions: Ref<number>;
   currentQuestionDatabase: Ref<question[]>;
   questionNumber: number;
   initializeQuestionDatabase: () => void;
+  reInitializeEverything: () => void;
   userDatabase: Ref<user[]>;
   updateUserDatabase: () => void;
   deleteFromCurrentQuestionDatabase: (position: number) => void;
@@ -28,6 +36,8 @@ interface composable {
 const questionNumber = 10;
 
 const username = ref('');
+const logged = ref(false);
+const savedSession = ref({ value: false, user: '' });
 const score = ref(0);
 
 const questionDatabase: question[] = [
@@ -137,10 +147,19 @@ const questionDatabase: question[] = [
 
 const currentQuestionDatabase = ref<question[]>([]);
 
+initializeQuestionDatabase();
+
+const currentQuestion = ref(0);
+const questionMessage = ref('');
+const answers = ref([]);
+const numberOfAskedQuestions = ref(0);
+const numberOfAnsweredQuestions = ref(0);
+
 const userDatabase = ref<user[]>([]);
 
 function setUsername(name: string) {
   username.value = name;
+  logged.value = true;
 }
 
 function increaseScore() {
@@ -149,6 +168,15 @@ function increaseScore() {
 
 function deleteFromCurrentQuestionDatabase(position: number) {
   currentQuestionDatabase.value.splice(position, 1);
+}
+
+function reInitializeEverything() {
+  score.value = 0;
+  numberOfAskedQuestions.value = 0;
+  numberOfAnsweredQuestions.value = 0;
+  initializeQuestionDatabase();
+  currentQuestion.value =
+    Math.trunc(Math.random() * 100) % currentQuestionDatabase.value.length;
 }
 
 function updateUserDatabase() {
@@ -172,18 +200,24 @@ function initializeQuestionDatabase() {
   });
 }
 
-initializeQuestionDatabase();
-
 export function useComposable(): composable {
   return {
     increaseScore,
     score,
     setUsername,
+    logged,
+    savedSession,
+    currentQuestion,
+    questionMessage,
+    answers,
+    numberOfAskedQuestions,
+    numberOfAnsweredQuestions,
     questionDatabase,
     currentQuestionDatabase,
     questionNumber,
     initializeQuestionDatabase,
     deleteFromCurrentQuestionDatabase,
+    reInitializeEverything,
     userDatabase,
     updateUserDatabase,
     username,

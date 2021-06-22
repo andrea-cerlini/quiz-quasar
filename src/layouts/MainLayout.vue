@@ -45,7 +45,7 @@ export default defineComponent({
       switch (path) {
         case '/quiz':
         case '/end':
-          if (useComposable().username.value === '') {
+          if (!useComposable().logged.value) {
             alert('Accesso negato: inserire un nome!');
             void router.push('login');
           }
