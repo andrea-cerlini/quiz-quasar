@@ -41,9 +41,7 @@ export default defineComponent({
 
     /* -------------------- Functions -------------------- */
     function checkRedirect(path: string) {
-      switch (path) {
-        case '/quiz':
-        case '/end':
+      if (path === '/quiz' || path === '/end') {
           if (!useComposable().logged.value) {
             alert('Accesso negato: non sei loggato');
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
