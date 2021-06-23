@@ -1,27 +1,23 @@
 <template>
   <q-form
-    class="absolute-center bg-50 q-pa-xl login-page"
     @submit="onSubmit"
     autocomplete="off"
+    class="absolute-center bg-50 login-page q-pa-xl"
   >
     <h2 class="text-primary">Login</h2>
-    <h4 class="text-secondary q-pa-sm light-bg border-radius-inherit">Inserisci il tuo nome</h4>
+    <h4 class="border-radius-inherit light-bg q-pa-sm text-secondary">Inserisci il tuo nome</h4>
     <q-input
-      standout="bg-secondary text-dark"
       :label="username === 'vuoto' ? 'Simpaticone...' : 'Inserisci il nome'"
-      name="usernameInput"
-      :rules="[
-        (username) =>
-          (username != false && username != undefined) ||
-          'Il nome non può essere vuoto! ',
-      ]"
-      v-model="username"
-      lazy-rules
+      :rules="[(username) =>(username != false && username != undefined) || 'Il nome non può essere vuoto! ',]"
       autofocus
+      lazy-rules
+      name="usernameInput"
+      standout="bg-secondary text-dark"
+      v-model="username"
     />
     <q-btn
-      class="text-secondary q-ma-md bg-grey-9"
       :ripple="{ early: true }"
+      class="bg-grey-9 q-ma-md text-secondary"
       type="submit"
       >INIZIA</q-btn
     >
@@ -29,10 +25,10 @@
 </template>
 
 <script lang="ts">
+import { useQuizDatabase } from 'src/composable/quiz-database-composable';
+import { useUsersDatabase } from 'src/composable/users-database-composable';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
-import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -49,6 +45,7 @@ export default defineComponent({
       username,
     } = useUsersDatabase();
     username.value = '';
+
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
       if (
         !confirm(

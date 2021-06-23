@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { useUsersDatabase } from 'src/composable/users-database-composable';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 
 export default defineComponent({
   name: 'MainLayout',

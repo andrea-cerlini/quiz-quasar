@@ -1,6 +1,6 @@
 <template>
   <q-card
-    class="end-page absolute-center column wrap justify-center q-pa-lg bg-50"
+    class="absolute-center bg-50 column end-page justify-center q-pa-lg wrap"
   >
     <h2 class="msg-end-quiz">Quiz terminato</h2>
     <div class="score-board text-body2">
@@ -15,7 +15,7 @@
           {{ score + ' su ' + totalQuestionsNumber }}
         </span>
         <span
-          class="new-best end-msg-correct text-weight-light"
+          class="end-msg-correct new-best text-weight-light"
           v-if="currentPlayerBest === score"
         >
           - miglior punteggio! :D</span
@@ -47,8 +47,8 @@
       </p>
     </div>
     <q-btn
-      class="restart-button text-secondary q-ma-md bg-grey-9"
-      @click="restartFunc"
+      class="bg-grey-9 q-ma-md restart-button text-secondary"
+      @click="restartGame"
       :ripple="{ early: true }"
     >
       <q-tooltip>Se riparti, perderai i dati di questa partita</q-tooltip
@@ -58,9 +58,9 @@
 </template>
 
 <script lang="ts">
+import { useQuizDatabase } from 'src/composable/quiz-database-composable';
+import { useUsersDatabase } from 'src/composable/users-database-composable';
 import { defineComponent, ref } from 'vue';
-import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
-import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -95,7 +95,7 @@ export default defineComponent({
     const totalQuestionsNumber = ref(questionNumber);
 
     /*--------------------------- Functions ---------------------------*/
-    function restartFunc() {
+    function restartGame() {
       logged.value = false;
       logged.value = false;
       savedSession.value.value = false;
@@ -109,7 +109,7 @@ export default defineComponent({
       score,
       totalQuestionsNumber,
       username,
-      restartFunc,
+      restartGame,
     };
   },
 });

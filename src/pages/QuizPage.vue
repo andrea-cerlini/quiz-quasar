@@ -1,16 +1,16 @@
 <template>
   <q-card
-    class="quiz-page q-pa-lg absolute-center column wrap justify-start bg-50"
+    class="absolute-center bg-50 column justify-start q-pa-lg quiz-page wrap"
   >
     <h4 class="question-paragraph">
       {{ questionMessage }}
     </h4>
-    <div class="answer-container row wrap justify-center">
+    <div class="answer-container justify-center row wrap">
       <q-btn
         :key="'answer' + index"
-        @click="checkAnswerIndex(index)"
-        class="answer text-white bg-primary q-pa-xl col-5 q-ma-sm"
         :ripple="{ early: true }"
+        @click="checkAnswerIndex(index)"
+        class="answer bg-primary col-5 q-ma-sm q-pa-xl text-white"
         v-for="(answer, index) in answers"
       >
         {{ answer }}
@@ -20,10 +20,10 @@
 </template>
 
 <script lang="ts">
+import { useQuizDatabase } from 'src/composable/quiz-database-composable';
+import { useUsersDatabase } from 'src/composable/users-database-composable';
 import { defineComponent } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
-import { useUsersDatabase } from 'src/composable/usersDatabaseComposable'
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'QuizPage',
