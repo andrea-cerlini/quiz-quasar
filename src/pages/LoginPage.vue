@@ -5,7 +5,7 @@
     autocomplete="off"
   >
     <h2 class="text-primary">Login</h2>
-    <h4 class="text-secondary q-pa-sm light-bg">Inserisci il tuo nome</h4>
+    <h4 class="text-secondary q-pa-sm light-bg border-radius-inherit">Inserisci il tuo nome</h4>
     <q-input
       standout="bg-secondary text-dark"
       :label="username === 'vuoto' ? 'Simpaticone...' : 'Inserisci il nome'"
@@ -133,6 +133,5 @@ export default defineComponent({
 }
 .light-bg {
   background-color: rgba(white, 0.3);
-  border-radius: 10px;
 }
 </style>

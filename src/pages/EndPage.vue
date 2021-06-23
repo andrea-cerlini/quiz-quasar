@@ -3,7 +3,7 @@
     class="end-page absolute-center column wrap justify-center q-pa-lg bg-50"
   >
     <h2 class="msg-end-quiz">Quiz terminato</h2>
-    <div class="score-board">
+    <div class="score-board text-body2">
       <p class="end-msg-wrap">
         Risposte esatte:
         <span
@@ -120,10 +120,6 @@ export default defineComponent({
   color: $primary;
   text-align: center;
   user-select: none;
-}
-
-.score-board {
-  font-size: 16px;
 }
 
 .end-msg {
