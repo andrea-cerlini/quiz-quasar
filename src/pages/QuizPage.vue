@@ -22,7 +22,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useComposable } from 'src/composable/composable';
+import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
+import { useUsersDatabase } from 'src/composable/usersDatabaseComposable'
 
 export default defineComponent({
   name: 'QuizPage',
@@ -33,7 +34,6 @@ export default defineComponent({
       answers,
       currentQuestion,
       currentQuestionDatabase,
-      logged,
       numberOfAnsweredQuestions,
       numberOfAskedQuestions,
       questionMessage,
@@ -42,7 +42,9 @@ export default defineComponent({
       deleteFromCurrentQuestionDatabase,
       increaseScore,
       initializeQuestionDatabase,
-    } = useComposable();
+    } = useQuizDatabase();
+    const 
+      { logged } = useUsersDatabase();
 
     if (logged.value && numberOfAskedQuestions.value === 0) {
       initializeQuestionDatabase();

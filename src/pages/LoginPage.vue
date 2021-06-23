@@ -31,20 +31,23 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useComposable } from 'src/composable/composable';
+import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
+import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 
 export default defineComponent({
   name: 'LoginPage',
   setup() {
     const router = useRouter();
     const {
-      logged,
       numberOfAnsweredQuestions,
       questionNumber,
       savedSession,
-      username,
       reInitializeEverything,
-    } = useComposable();
+    } = useQuizDatabase();
+    const {
+      logged,
+      username,
+    } = useUsersDatabase();
     username.value = '';
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
       if (

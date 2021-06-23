@@ -1,10 +1,5 @@
 import { ref } from 'vue';
 
-interface user {
-  name: string;
-  bestScore: number;
-}
-
 interface question {
   question: string;
   answers: string[];
@@ -13,8 +8,6 @@ interface question {
 
 const questionNumber = 10;
 
-const username = ref('');
-const logged = ref(false);
 const savedSession = ref({ value: false, user: '' });
 const score = ref(0);
 
@@ -133,13 +126,6 @@ const answers = ref<string[]>([]);
 const numberOfAskedQuestions = ref(0);
 const numberOfAnsweredQuestions = ref(0);
 
-const userDatabase = ref<user[]>([]);
-
-function setUsername(name: string) {
-  username.value = name;
-  logged.value = true;
-}
-
 function increaseScore() {
   score.value++;
 }
@@ -157,20 +143,6 @@ function reInitializeEverything() {
     Math.trunc(Math.random() * 100) % currentQuestionDatabase.value.length;
 }
 
-function updateUserDatabase() {
-  const found = ref(false);
-  userDatabase.value.forEach((user) => {
-    if (user.name === username.value) {
-      if (score.value > user.bestScore) {
-        user.bestScore = score.value;
-      }
-      found.value = true;
-    }
-  });
-  if (!found.value) {
-    userDatabase.value.push({ name: username.value, bestScore: score.value });
-  }
-}
 
 function initializeQuestionDatabase() {
   questionDatabase.forEach((question, index) => {
@@ -178,12 +150,11 @@ function initializeQuestionDatabase() {
   });
 }
 
-export function useComposable() {
+export function useQuizDatabase() {
   return {
     answers,
     currentQuestion,
     currentQuestionDatabase,
-    logged,
     numberOfAnsweredQuestions,
     numberOfAskedQuestions,
     questionDatabase,
@@ -191,13 +162,9 @@ export function useComposable() {
     questionNumber,
     savedSession,
     score,
-    userDatabase,
-    username,
     deleteFromCurrentQuestionDatabase,
     increaseScore,
     initializeQuestionDatabase,
     reInitializeEverything,
-    setUsername,
-    updateUserDatabase,
   };
 }

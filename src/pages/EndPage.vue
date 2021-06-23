@@ -59,7 +59,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useComposable } from 'src/composable/composable';
+import { useQuizDatabase } from 'src/composable/quizDatabaseComposable';
+import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -67,21 +68,23 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const {
-      logged,
       numberOfAnsweredQuestions,
       questionNumber,
       savedSession,
       score,
+    } = useQuizDatabase();
+     const {
+      logged,
       userDatabase,
       username,
       updateUserDatabase,
-    } = useComposable();
+     } = useUsersDatabase();
 
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       router.push({ name: 'QuizPage' });
     }
-    updateUserDatabase();
+    updateUserDatabase(score);
     const currentPlayerBest = ref(0);
     userDatabase.value.forEach((user) => {
       // Initialization bestScore

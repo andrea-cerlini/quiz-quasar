@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useComposable } from 'src/composable/composable';
+import { useUsersDatabase } from 'src/composable/usersDatabaseComposable';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -42,7 +42,7 @@ export default defineComponent({
     /* -------------------- Functions -------------------- */
     function checkRedirect(path: string) {
       if (path === '/quiz' || path === '/end') {
-          if (!useComposable().logged.value) {
+          if (!useUsersDatabase().logged.value) {
             alert('Accesso negato: non sei loggato');
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             router.push({ name: 'LoginPage' });
