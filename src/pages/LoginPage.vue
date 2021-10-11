@@ -5,10 +5,16 @@
     class="absolute-center bg-50 login-page q-pa-xl"
   >
     <h2 class="text-primary">Login</h2>
-    <h4 class="border-radius-inherit light-bg q-pa-sm text-secondary">Inserisci il tuo nome</h4>
+    <h4 class="border-radius-inherit light-bg q-pa-sm text-secondary">
+      Inserisci il tuo nome
+    </h4>
     <q-input
       :label="username === 'vuoto' ? 'Simpaticone...' : 'Inserisci il nome'"
-      :rules="[(username) =>(username != false && username != undefined) || 'Il nome non può essere vuoto! ',]"
+      :rules="[
+        (username) =>
+          (username != false && username != undefined) ||
+          'Il nome non può essere vuoto! ',
+      ]"
       autofocus
       lazy-rules
       name="usernameInput"
@@ -40,10 +46,7 @@ export default defineComponent({
       savedSession,
       reInitializeEverything,
     } = useQuizDatabase();
-    const {
-      logged,
-      username,
-    } = useUsersDatabase();
+    const { logged, username } = useUsersDatabase();
     username.value = '';
 
     if (logged.value && numberOfAnsweredQuestions.value < questionNumber) {
